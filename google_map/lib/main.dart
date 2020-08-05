@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_map/views/map_default.dart';
+import 'package:google_map/views/add_list_marker_custom_icon.dart';
+import 'package:google_map/views/add_list_marker_default.dart';
+import 'package:google_map/views/custom_icon_marker.dart';
+import 'package:google_map/views/map_add_marker_default.dart';
+import 'package:google_map/views/map_add_marker_location_onchange.dart';
 
 import 'custom_widget/normal_button.dart';
 
@@ -11,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Google Map Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -27,14 +32,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
 
@@ -48,8 +45,26 @@ class _MainPageState extends State<MainPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             NormalButton(onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>MapDefault()));
-            },title:'Map Default'),
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>MapAddDefault()));
+            },title:'Map Add Default'),
+            SizedBox(height: 10,),
+            NormalButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>MapWithMarkerLocation()));
+            },title:'Map Add Marker Location OnChange'),
+            SizedBox(height: 10,),
+
+            NormalButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomIconMarker()));
+            },title:'Custom Icon Marker'),
+            SizedBox(height: 10,),
+
+            NormalButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddListMarkerDefault()));
+            },title:'Add List Marker Default'),
+            SizedBox(height: 10,),
+            NormalButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddListMarkerCustomIcon()));
+            },title:'Add List Marker Custom Icon'),
           ],
         ),
       ),
