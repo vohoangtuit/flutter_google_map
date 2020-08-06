@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:google_map/utils/marker.dart';
+import 'package:google_map/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddListMarkerCustomIcon extends StatefulWidget {
@@ -12,7 +13,7 @@ class AddListMarkerCustomIcon extends StatefulWidget {
 
 class _AddListMarkerCustomIconState extends State<AddListMarkerCustomIcon> {
   Set<Marker> markers = Set();
-  LatLng locationDefault = LatLng(10.8111281, 106.6945036);
+  LatLng locationDefault = Utils().locationDefault;
   GoogleMapController mapController;
   @override
   Widget build(BuildContext context) {
@@ -48,27 +49,45 @@ class _AddListMarkerCustomIconState extends State<AddListMarkerCustomIcon> {
 
     // Uint8List imageData = await Utils().getMarker(context);// todo way 1
     //Uint8List _icon = await MarkerUtils().markerIcon(170);// todo way 2
-    Uint8List icon1 = await MarkerUtils().markerIconPath(MarkerUtils().listIcon[2],170);// todo way 3
-    Uint8List _icon2 = await MarkerUtils().markerIconPath(MarkerUtils().listIcon[3],170);// todo way 3
-    Uint8List _icon3 = await MarkerUtils().markerIconPath(MarkerUtils().listIcon[4],170);// todo way 3
+    Uint8List icon1 = await MarkerUtils().markerIconPath(MarkerUtils().listIcon[2],90);// todo way 3
+    Uint8List _icon2 = await MarkerUtils().markerIconPath(MarkerUtils().listIcon[3],90);// todo way 3
+    Uint8List _icon3 = await MarkerUtils().markerIconPath(MarkerUtils().listIcon[4],90);// todo way 3
     setState(() {
       markers.addAll([
         Marker(
             icon: BitmapDescriptor.fromBytes(icon1),
             markerId: MarkerId('value'),
-            position: location1),
+            position: location1,
+          infoWindow: InfoWindow(
+            title: 'the marker 1',
+            // onTap: (){}// todo
+          ),
+        ),
         Marker(
             icon: BitmapDescriptor.fromBytes(_icon2),
             markerId: MarkerId('value2'),
-            position: location2),
+            position: location2,
+          infoWindow: InfoWindow(
+          title: 'the marker 2',
+          // onTap: (){}// todo
+        ),),
         Marker(
             icon: BitmapDescriptor.fromBytes(_icon2),
             markerId: MarkerId('value3'),
-            position: location3),
+            position: location3,
+          infoWindow: InfoWindow(
+            title: 'the marker 3',
+            // onTap: (){}// todo
+          ),),
         Marker(
             icon: BitmapDescriptor.fromBytes(_icon3),
             markerId: MarkerId('value4'),
-            position: location4),
+            position: location4,
+          infoWindow: InfoWindow(
+            title: 'the marker 4',
+            // onTap: (){}// todo
+          ),),
+
       ]);
 
     }

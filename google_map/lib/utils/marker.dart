@@ -25,15 +25,19 @@ class MarkerUtils{
     mapController.animateCamera(
         CameraUpdate.newCameraPosition(
             new CameraPosition(
-        bearing: 192.8334901395799,
+       // bearing: 192.8334901395799,// todo: xoay map
         target: location,
         tilt: 0,
         zoom: 16)));
-//    return CameraPosition(
-//        zoom: 16,
-//        bearing: 30,
-//        target: location
-//    );
+  }
+  CameraPosition moveCameraAnimationWithZoom(GoogleMapController mapController,LatLng location, double zoom){
+    mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+            new CameraPosition(
+               // bearing: 192.8334901395799,// todo: xoay map
+                target: location,
+                tilt: 0,
+                zoom: zoom)));
   }
   Future<Uint8List> getMarker(BuildContext context) async {
     ByteData byteData = await DefaultAssetBundle.of(context).load("assets/icons/ic_marker_drink.png");

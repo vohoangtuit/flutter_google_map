@@ -18,7 +18,7 @@ class _CustomIconMarkerState extends State<CustomIconMarker> {
   Uint8List markerIcon;
   Marker marker;
   GoogleMapController _controller;
-  LatLng locationDefault = LatLng(10.8111281, 106.6945036);
+  LatLng locationDefault = Utils().locationDefault;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,13 +49,13 @@ class _CustomIconMarkerState extends State<CustomIconMarker> {
 //  }
    addMarker() async {
     // Uint8List imageData = await Utils().getMarker(context);// todo way 1
-     Uint8List imageData = await MarkerUtils().markerIcon(170);// todo way 2
+     Uint8List imageData = await MarkerUtils().markerIcon(70);// todo way 2
     // Uint8List _icon = await MarkerUtils().markerIconPath(MarkerUtils().listIcon[4],170);// todo way 3
     setState(() {
       marker = Marker(
         markerId: MarkerId('<MARKER_ID>'),
         position: locationDefault,
-          infoWindow: InfoWindow(
+        infoWindow: InfoWindow(
             title: 'The title of the marker',
             // onTap: (){}// todo
           ),

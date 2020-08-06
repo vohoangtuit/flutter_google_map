@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_map/utils/marker.dart';
+import 'package:google_map/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddListMarkerDefault extends StatefulWidget {
@@ -11,7 +12,7 @@ class AddListMarkerDefault extends StatefulWidget {
 
 class _AddListMarkerDefaultState extends State<AddListMarkerDefault> {
   Set<Marker> markers = Set();
-  LatLng locationDefault = LatLng(10.8111281, 106.6945036);
+  LatLng locationDefault = Utils().locationDefault;
   GoogleMapController mapController;
   @override
   Widget build(BuildContext context) {
