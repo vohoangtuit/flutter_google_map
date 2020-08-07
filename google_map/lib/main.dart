@@ -4,7 +4,7 @@ import 'package:google_map/views/add_list_marker_default.dart';
 import 'package:google_map/views/custom_icon_marker.dart';
 import 'package:google_map/views/map_add_marker_default.dart';
 import 'package:google_map/views/map_add_marker_location_onchange.dart';
-import 'package:google_map/views/map_custom_info_window.dart';
+import 'package:google_map/views/map_draw_route_two_location.dart';
 import 'package:google_map/views/map_show_detail_poup.dart';
 import 'package:google_map/views/show_restaurants_to_map.dart';
 
@@ -76,12 +76,13 @@ class _MainPageState extends State<MainPage> {
               //
               SizedBox(height: 10,),
               NormalButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>MapCustomInfoWindown()));
-              },title:'Map Custom InfoWindow'),
-              SizedBox(height: 10,),
-              NormalButton(onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>MapShowDetailPopup()));
               },title:'Map Show detail popup'),
+
+              SizedBox(height: 10,),
+              NormalButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>DrawRouteTwoLocationSample()));
+              },title:'Map Draw route Two Location Sample'),
             ],
           ),
         ),

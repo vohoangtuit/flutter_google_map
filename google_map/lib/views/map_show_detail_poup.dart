@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_map/model/restaurant.dart';
 import 'package:google_map/utils/marker.dart';
 import 'package:google_map/utils/utils.dart';
+import 'package:google_map/views/detail_restaurant.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapShowDetailPopup extends StatefulWidget {
@@ -107,61 +108,67 @@ class _MapShowDetailPopupState extends State<MapShowDetailPopup> {
     }
     return restaurant != null
         ? Align(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(8.0),
-                      topRight: const Radius.circular(8.0))),
-              width: 280,
-              height: 100,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  children: <Widget>[
-                    Image.network(
-                      restaurant.image,
-                      width: 90,
-                      height: 170,
-                    ),
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                restaurant.name,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                                 style: TextStyle(color: Colors.deepOrange, fontSize: 16, fontWeight: FontWeight.bold),
-                                // softWrap: true,
-                              ),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailResTauRant(restaurant)));
+  },
+              child: Container(
 
-
-                              RatingBar(
-                                initialRating: restaurant.rating,
-                                minRating: 1,
-                                itemSize: 18,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                               // tapOnlyMode: true,
-                                itemCount: 5,
-                                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                                itemBuilder: (context, _) => Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
+                decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(8.0),
+                        topRight: const Radius.circular(8.0))),
+                width: 280,
+                height: 100,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Image.network(
+                        restaurant.image,
+                        width: 90,
+                        height: 170,
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  restaurant.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                   style: TextStyle(color: Colors.deepOrange, fontSize: 16, fontWeight: FontWeight.bold),
+                                  // softWrap: true,
                                 ),
+
+
+                                RatingBar(
+                                  initialRating: restaurant.rating,
+                                  minRating: 1,
+                                  itemSize: 18,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                 // tapOnlyMode: true,
+                                  itemCount: 5,
+                                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
 //                                onRatingUpdate: (rating) {// todo: disable update
 //                                  //print(rating);
 //                                },
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
 
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
