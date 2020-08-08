@@ -32,10 +32,13 @@ dependencies:
   geolocator: ^5.3.2+2
     #1.1 location
   location: ^3.0.2
-    #2 Google map
+  #2 Google map
   google_maps_flutter: ^0.5.29
+  #3 Google polyline
   google_map_polyline: ^0.2.0+1
-
+  #4 Google places
+  flutter_google_places: ^0.2.6
+  google_maps_webservice: ^0.0.17
   flutter_rating_bar: ^3.0.1+1
 
 dev_dependencies:

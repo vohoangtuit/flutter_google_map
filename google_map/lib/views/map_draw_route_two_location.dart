@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:google_map/utils/constant.dart';
 import 'package:google_map/utils/marker.dart';
 import 'package:google_map/utils/utils.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
@@ -20,7 +21,7 @@ class _DrawRouteTwoLocationSampleState extends State<DrawRouteTwoLocationSample>
   final Set<Polyline>_polyline={};
   List<LatLng> routeCoords =List<LatLng>();
   GoogleMapController mapController;
-  GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: "AIzaSyCrdsRSWgms4aN4mcccQ2uzS2tUYqFv9Nk");// in manifest
+  GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: Constant.API_KEY);// in manifest
   @override
   Widget build(BuildContext context) {
     return Scaffold(
