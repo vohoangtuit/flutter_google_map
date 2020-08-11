@@ -2,8 +2,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Utils {
-  LatLng locationDefault = LatLng(10.7498708, 106.7041076);
-  LatLng locationTo = LatLng(10.7674392, 106.638283);
+
 
   static String mapStyles = '''[
   {

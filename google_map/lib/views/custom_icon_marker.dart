@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_map/utils/marker.dart';
+import 'package:google_map/utils/googlemap_utils.dart';
 import 'package:google_map/utils/utils.dart';
 import 'dart:ui' as ui;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,7 +18,7 @@ class _CustomIconMarkerState extends State<CustomIconMarker> {
   Uint8List markerIcon;
   Marker marker;
   GoogleMapController _controller;
-  LatLng locationDefault = Utils().locationDefault;
+  LatLng locationDefault = GoogleMapUtils().locationDefault;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,7 @@ class _CustomIconMarkerState extends State<CustomIconMarker> {
         myLocationEnabled: true,
         compassEnabled: true,
         mapType: MapType.normal,
-        initialCameraPosition: MarkerUtils().cameraPosition(locationDefault),
+        initialCameraPosition: GoogleMapUtils().cameraPosition(locationDefault),
         markers: Set.of((marker != null) ? [marker] : []),
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
@@ -49,7 +49,7 @@ class _CustomIconMarkerState extends State<CustomIconMarker> {
 //  }
    addMarker() async {
     // Uint8List imageData = await Utils().getMarker(context);// todo way 1
-     Uint8List imageData = await MarkerUtils().markerIcon(70);// todo way 2
+     Uint8List imageData = await GoogleMapUtils().markerIcon(70);// todo way 2
     // Uint8List _icon = await MarkerUtils().markerIconPath(MarkerUtils().listIcon[4],170);// todo way 3
     setState(() {
       marker = Marker(

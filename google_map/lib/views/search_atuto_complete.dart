@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_map/utils/constant.dart';
-import 'package:google_map/utils/marker.dart';
+import 'package:google_map/utils/googlemap_utils.dart';
 import 'package:google_map/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -13,7 +14,8 @@ class MapSearchAutoComplete extends StatefulWidget {
 
 class _MapSearchAutoCompleteState extends State<MapSearchAutoComplete> {
   GoogleMapController mapController;
-  LatLng locationDefault = Utils().locationDefault;
+  LatLng locationDefault = GoogleMapUtils().locationDefault;
+  final Set<Marker> _markers = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,24 +27,30 @@ class _MapSearchAutoCompleteState extends State<MapSearchAutoComplete> {
             onMapCreated: (GoogleMapController controller) {
               mapController = controller;
             },
+            markers: _markers,
             myLocationEnabled: true,
             zoomGesturesEnabled: true,
             compassEnabled: true,
             mapType: MapType.normal,
-            initialCameraPosition: MarkerUtils().cameraPosition(locationDefault),
+            initialCameraPosition: GoogleMapUtils().cameraPosition(locationDefault),
           ),
           Container(
-            color: Colors.blue,
-              child: GestureDetector(
-                onTap: ()async {
-                  Prediction p = await PlacesAutocomplete.show(
-                    context: context, apiKey: Constant.API_KEY,
-                      language: "en",
-                      components: [Component(Component.country, "pk")]);
-                  _getLatLng(p);
-                },
-                child: Text('Find address'),
-              )
+           // alignment: Alignment.topCenter,
+            height: 40,
+              child: Align(
+                  alignment: Alignment.center,
+                  child: RaisedButton(
+                    color: Colors.deepOrange,
+                     child: Text('Find Address',style: TextStyle(color: Colors.white, fontSize: 16),),
+                    onPressed: ()async{
+                      Prediction p = await PlacesAutocomplete.show(
+                          context: context, apiKey: Constant.API_KEY,
+                          language: "vi",
+                          mode: Mode.overlay, // Mode.overlay or  Mode.fullscreen
+                          components: [Component(Component.country, "vn")]);
+                      _getLatLng(p);
+                    },
+                  ))
           ),
         ],
       ),
@@ -52,14 +60,6 @@ class _MapSearchAutoCompleteState extends State<MapSearchAutoComplete> {
   void initState() {
     // TODO: implement initState
     super.initState();
-  }
-  initPrediction()async{
-    Prediction prediction = await PlacesAutocomplete.show(
-        context: context,
-        apiKey: Constant.API_KEY,
-        mode: Mode.fullscreen, // Mode.overlay
-        language: "vi",
-        components: [Component(Component.country, "vi")]);
   }
   void _getLatLng(Prediction prediction) async {
     GoogleMapsPlaces _places = new
@@ -72,5 +72,19 @@ class _MapSearchAutoCompleteState extends State<MapSearchAutoComplete> {
     print("latitude $latitude");
     print("longitude $longitude");
     print("address $address");
+
+    setState(() {
+        _markers.clear();
+
+      _markers.add(Marker(
+          markerId: MarkerId("2222"),
+          position:LatLng(latitude,longitude),
+         // icon: BitmapDescriptor.defaultMarker,
+          icon:BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+          infoWindow: InfoWindow(title: address)
+      ));
+      GoogleMapUtils().cameraPositionAnimation(mapController,LatLng(latitude,longitude));
+    });
+
   }
 }

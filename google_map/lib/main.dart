@@ -6,6 +6,7 @@ import 'package:google_map/views/map_add_marker_default.dart';
 import 'package:google_map/views/map_add_marker_location_onchange.dart';
 import 'package:google_map/views/map_draw_route_two_location.dart';
 import 'package:google_map/views/map_show_detail_poup.dart';
+import 'package:google_map/views/search_address_and_draw_route.dart';
 import 'package:google_map/views/search_atuto_complete.dart';
 import 'package:google_map/views/show_restaurants_to_map.dart';
 
@@ -88,6 +89,10 @@ class _MainPageState extends State<MainPage> {
               NormalButton(onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>MapSearchAutoComplete()));
               },title:'Map Search Auto Complete'),
+              SizedBox(height: 10,),
+              NormalButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchAddressAndDrawRoute()));
+              },title:'Search Address and Draw route'),
             ],
           ),
         ),

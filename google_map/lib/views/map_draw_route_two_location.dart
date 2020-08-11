@@ -1,109 +1,121 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:google_map/utils/constant.dart';
-import 'package:google_map/utils/marker.dart';
+import 'package:google_map/utils/googlemap_utils.dart';
 import 'package:google_map/utils/utils.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
+import 'package:permission/permission.dart';
+import 'package:provider/provider.dart';
 
 class DrawRouteTwoLocationSample extends StatefulWidget {
-// https://developers.google.com/maps/documentation/directions/get-api-key
-// https://github.com/Dammyololade/flutter_polyline_points
   @override
-  _DrawRouteTwoLocationSampleState createState() => _DrawRouteTwoLocationSampleState();
+  _DrawRouteTwoLocationSample createState() => _DrawRouteTwoLocationSample();
 }
 
-class _DrawRouteTwoLocationSampleState extends State<DrawRouteTwoLocationSample> {
-  Set<Marker> markers = Set();
-  LatLng locationDefault = Utils().locationDefault;
-  LatLng locationTo = Utils().locationTo;
-  final Set<Polyline>_polyline={};
-  List<LatLng> routeCoords =List<LatLng>();
-  GoogleMapController mapController;
-  GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: Constant.API_KEY);// in manifest
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Map Draw route Two Location Sample'),),
-      body: GoogleMap(
-        onMapCreated: (GoogleMapController controller) {
-          mapController = controller;
-          _polyline.add(Polyline(
-              polylineId: PolylineId('route1'),
-              visible: true,
-              points: routeCoords,
-              width: 4,
-              color: Colors.blue,
-              startCap: Cap.roundCap,
-              endCap: Cap.buttCap));
-        },
-        polylines: _polyline,
-        myLocationEnabled: true,
-        compassEnabled: true,
-        mapType: MapType.normal,
-        markers: markers,
-        initialCameraPosition: MarkerUtils().cameraPosition(locationDefault),
+class _DrawRouteTwoLocationSample extends State<DrawRouteTwoLocationSample> {
 
-      ),
-    );
-  }
+  bool loading = true;
+  final Set<Marker> _markers = {};
+  final Set<Polyline> _polyLines = {};
+  GoogleMapUtils _googleMapsUtils = GoogleMapUtils();
+  Set<Polyline> get polyLines => _polyLines;
+  Completer<GoogleMapController> _controller = Completer();
+   LatLng latLng =GoogleMapUtils().locationDefault;
+  LocationData currentLocation;
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      getData();
-      //getaddressPoints();
-    });
-   // _drawRoute();
+    _onAddMarkerButtonPressed();
   }
-  getData() async{
-    Uint8List _icon = await MarkerUtils().markerIconPath(MarkerUtils().listIcon[4],90);
-    Set<Marker> marker = Set();
-    marker.add(Marker(
-      icon: BitmapDescriptor.fromBytes(_icon),
-      position: locationDefault,
-      markerId: MarkerId('1'),
-      infoWindow: InfoWindow(
-          title: 'From'
-      ),
-    ));
-    marker.add(Marker(
-      icon: BitmapDescriptor.fromBytes(_icon),
-      position: locationTo,
-      markerId: MarkerId('2'),
-      infoWindow: InfoWindow(
-          title: 'To'
-      ),
-    ));
 
-    MarkerUtils().moveCameraAnimationWithZoom(mapController, locationDefault, 12);
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      body:
+      GoogleMap(
+       // polylines: polyLines,
+        polylines: _polyLines,
+        markers: _markers,
+        mapType: MapType.normal,
+        initialCameraPosition: CameraPosition(
+          target: latLng,
+          zoom: 14.4746,
+        ),
+        onCameraMove:  onCameraMove,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+      ),
+
+
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+          sendRequest();
+        },
+        label: Text('Destination'),
+        icon: Icon(Icons.directions_boat),
+      ),
+    );
+  }
+  void _onAddMarkerButtonPressed() {
     setState(() {
-      markers =marker;
-      getsomePoints();
+      _markers.add(Marker(
+        markerId: MarkerId("111"),
+        position: _googleMapsUtils.locationDefault,
+        icon: BitmapDescriptor.defaultMarker,
+          infoWindow: InfoWindow(
+            title: 'from hear',
+              snippet: "from here..."
+          )
+      ));
+      _markers.add(Marker(
+        markerId: MarkerId("2222"),
+        position:_googleMapsUtils.locationTo,
+       // icon: BitmapDescriptor.defaultMarker,
+          icon:BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+        infoWindow: InfoWindow(
+          title: 'to hear',
+            snippet: "to here..."
+        )
+      ));
     });
+  }
 
+
+  void onCameraMove(CameraPosition position) {
+    latLng = position.target;
   }
-  getaddressPoints() async {
-    routeCoords = await googleMapPolyline.getPolylineCoordinatesWithAddress(
-        origin: '95 Lê Văn Lương, Tân Kiểng, Quận 7, Thành phố Hồ Chí Minh',
-        destination: 'Hưng điền B, Tân Hưng, Long An',
-        mode: RouteMode.driving);
+
+  List<LatLng> _convertToLatLng(List points) {
+    List<LatLng> result = <LatLng>[];
+    for (int i = 0; i < points.length; i++) {
+      if (i % 2 != 0) {
+        result.add(LatLng(points[i - 1], points[i]));
+      }
+    }
+    return result;
   }
-  getsomePoints() async {
-    routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
-        origin: locationDefault,
-        destination: locationTo,
-        mode: RouteMode.driving);
+
+  void sendRequest() async {
+    LatLng destination = _googleMapsUtils.locationTo;
+    String route = await _googleMapsUtils.getRouteCoordinates(
+        _googleMapsUtils.locationDefault, destination);
+    createRoute(route);
   }
-  _drawRoute() async{
-    setState(() async{
-      routeCoords= await googleMapPolyline.getCoordinatesWithLocation(
-          origin: locationDefault,
-          destination: locationTo,
-          mode:  RouteMode.driving);
+
+  void createRoute(String encondedPoly) {
+    setState(() {
+      _polyLines.add(Polyline(
+          polylineId: PolylineId(latLng.toString()),
+          width: 6,
+          points: _convertToLatLng(_googleMapsUtils.decodePoly(encondedPoly)),
+          color: Colors.red));
     });
-
   }
+
 }
+

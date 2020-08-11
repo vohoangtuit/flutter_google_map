@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_map/model/restaurant.dart';
-import 'package:google_map/utils/marker.dart';
+import 'package:google_map/utils/googlemap_utils.dart';
 import 'package:google_map/utils/utils.dart';
 import 'package:google_map/views/detail_restaurant.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,7 +15,7 @@ class MapShowDetailPopup extends StatefulWidget {
 
 class _MapShowDetailPopupState extends State<MapShowDetailPopup> {
   Set<Marker> markers = Set();
-  LatLng locationDefault = Utils().locationDefault;
+  LatLng locationDefault = GoogleMapUtils().locationDefault;
   GoogleMapController mapController;
   Restaurant restaurantDetail;
 
@@ -39,7 +39,7 @@ class _MapShowDetailPopupState extends State<MapShowDetailPopup> {
             mapType: MapType.normal,
             markers: markers,
             initialCameraPosition:
-                MarkerUtils().cameraPosition(locationDefault),
+                GoogleMapUtils().cameraPosition(locationDefault),
             //initialCameraPosition: MarkerUtils().cameraPositionAnimation(mapController,locationDefault),
           ),
           detailRestaurant(restaurantDetail),
@@ -60,7 +60,7 @@ class _MapShowDetailPopupState extends State<MapShowDetailPopup> {
     List<Restaurant> restaurants = new Restaurant().initData();
     Set<Marker> marker = Set();
     Uint8List _icon =
-        await MarkerUtils().markerIconPath(MarkerUtils().listIcon[4], 90);
+        await GoogleMapUtils().markerIconPath(GoogleMapUtils().listIcon[4], 90);
     LatLng latLngMoveCamera;
     if (restaurants != null) {
       latLngMoveCamera =
@@ -91,7 +91,7 @@ class _MapShowDetailPopupState extends State<MapShowDetailPopup> {
       }
       setState(() {
         markers = marker;
-        MarkerUtils()
+        GoogleMapUtils()
             .moveCameraAnimationWithZoom(mapController, latLngMoveCamera, 14);
       });
     }

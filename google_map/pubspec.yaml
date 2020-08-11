@@ -40,6 +40,8 @@ dependencies:
   flutter_google_places: ^0.2.6
   google_maps_webservice: ^0.0.17
   flutter_rating_bar: ^3.0.1+1
+  provider: ^4.3.2
+  permission: ^0.1.7
 
 dev_dependencies:
   flutter_test:

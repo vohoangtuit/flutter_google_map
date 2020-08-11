@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_map/utils/marker.dart';
+import 'package:google_map/utils/googlemap_utils.dart';
 import 'package:google_map/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -12,7 +12,7 @@ class AddListMarkerDefault extends StatefulWidget {
 
 class _AddListMarkerDefaultState extends State<AddListMarkerDefault> {
   Set<Marker> markers = Set();
-  LatLng locationDefault = Utils().locationDefault;
+  LatLng locationDefault = GoogleMapUtils().locationDefault;
   GoogleMapController mapController;
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _AddListMarkerDefaultState extends State<AddListMarkerDefault> {
         mapType: MapType.normal,
         markers: markers,
 
-        initialCameraPosition: MarkerUtils().cameraPosition(locationDefault),
+        initialCameraPosition: GoogleMapUtils().cameraPosition(locationDefault),
         //initialCameraPosition: MarkerUtils().cameraPositionAnimation(mapController,locationDefault),
       ),
     );
@@ -67,7 +67,7 @@ class _AddListMarkerDefaultState extends State<AddListMarkerDefault> {
     if(mapController!=null){
       print("1111111111111111111111111");
       //MarkerUtils().cameraPositionAnimation(mapController,location1);
-      MarkerUtils().cameraPositionAnimation(mapController,location1);
+      GoogleMapUtils().cameraPositionAnimation(mapController,location1);
     }else{
       locationDefault = location1;//
       print("22222222222222222");
