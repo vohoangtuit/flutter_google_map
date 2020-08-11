@@ -47,5 +47,7 @@
     <string>Please allow location access</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>Please allow location access</string>
+    <key>io.flutter.embedded_views_preview</key>
+    <true/>
 </dict>
 </plist>
