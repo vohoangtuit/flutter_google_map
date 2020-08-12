@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_map/utils/googlemap_utils.dart';
-import 'package:google_map/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddListMarkerDefault extends StatefulWidget {

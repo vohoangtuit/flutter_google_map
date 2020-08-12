@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_map/utils/constant.dart';
 import 'package:google_map/utils/googlemap_utils.dart';
-import 'package:google_map/utils/utils.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -90,16 +89,6 @@ class _DrawRouteTwoLocationSample extends State<DrawRouteTwoLocationSample> {
     latLng = position.target;
   }
 
-  List<LatLng> _convertToLatLng(List points) {
-    List<LatLng> result = <LatLng>[];
-    for (int i = 0; i < points.length; i++) {
-      if (i % 2 != 0) {
-        result.add(LatLng(points[i - 1], points[i]));
-      }
-    }
-    return result;
-  }
-
   void sendRequest() async {
     LatLng destination = _googleMapsUtils.locationTo;
     String route = await _googleMapsUtils.getRouteCoordinates(
@@ -112,7 +101,7 @@ class _DrawRouteTwoLocationSample extends State<DrawRouteTwoLocationSample> {
       _polyLines.add(Polyline(
           polylineId: PolylineId(latLng.toString()),
           width: 6,
-          points: _convertToLatLng(_googleMapsUtils.decodePoly(encondedPoly)),
+          points: _googleMapsUtils.convertToLatLng(_googleMapsUtils.decodePoly(encondedPoly)),
           color: Colors.red));
     });
   }

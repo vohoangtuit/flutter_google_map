@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_map/model/restaurant.dart';
 import 'package:google_map/utils/googlemap_utils.dart';
-import 'package:google_map/utils/utils.dart';
 import 'package:google_map/views/detail_restaurant.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
